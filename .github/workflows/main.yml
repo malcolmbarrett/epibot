@@ -1,0 +1,52 @@
+name: Retweet epitwitter
+'on':
+#  push:
+#    branches:
+#      - master
+  schedule:
+    - cron:  '0 * * * *'
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+
+      - name: Query dependencies
+        run: |
+          options(repos = 'https://packagemanager.rstudio.com/all/latest')
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install Package Dependencies
+        run: |-
+          options(repos = 'https://packagemanager.rstudio.com/all/latest')
+          install.packages('remotes')
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Run epibot script
+        env:
+          EPIBOT_ACCESS_SECRET: ${{ secrets.EPIBOT_ACCESS_SECRET }}
+          EPIBOT_ACCESS_TOKEN: ${{ secrets.EPIBOT_ACCESS_TOKEN }}
+          EPIBOT_CONSUMER_KEY: ${{ secrets.EPIBOT_CONSUMER_KEY }}
+          EPIBOT_CONSUMER_SECRET: ${{ secrets.EPIBOT_CONSUMER_SECRET }}
+          MONGODB_EPIBOT_USER: ${{ secrets.MONGODB_EPIBOT_USER }}
+          MONGODB_EPIBOT_PW: ${{ secrets.MONGODB_EPIBOT_PW }}
+          MONGODB_EPIBOT_URL: ${{ secrets.MONGODB_EPIBOT_URL }}
+        run: |-
+          source('R/epibot.R')
+        shell: Rscript {0}

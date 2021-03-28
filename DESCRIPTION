@@ -1,0 +1,25 @@
+Package: epibot
+Title: Deploy the epibot
+Version: 0.0.1
+Authors@R: 
+    person(given = "Malcolm",
+           family = "Barrett",
+           role = c("aut", "cre"),
+           email = "malcolmbarrett@gmail.com",
+           comment = c(ORCID = "0000-0003-0299-5825"))
+Description: Deploy the epibot Twitter bot, which retweets the epitwitter
+    hashtag.
+License: MIT + file LICENSE
+URL: https://github.com/malcolmbarrett/epibot
+BugReports: https://github.com/malcolmbarrett/epibot/issues
+Imports: 
+    dplyr,
+    fs,
+    glue,
+    mongolite,
+    purrr,
+    rtweet,
+    withr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
