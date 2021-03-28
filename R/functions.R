@@ -137,7 +137,7 @@ slow_retweet <- function(.x, epitwitter_tweets) {
   tweet <- epitwitter_tweets %>%
     filter(status_id == .x)
 
-  message(glue::glue("Retweeting from @{tweet$screen_name}: {tweet$text}"))
+  message(glue::glue("Retweeting @{tweet$screen_name}: {tweet$text}"))
   post_tweet(
     retweet_id = .x,
     token = epitwitter_token()
