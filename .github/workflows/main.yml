@@ -2,7 +2,7 @@ name: Retweet epitwitter
 'on':
 #  push:
 #    branches:
-#      - master
+#      - main
   schedule:
     - cron:  '0 * * * *'
 
@@ -11,7 +11,7 @@ jobs:
     runs-on: macOS-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@master
+        uses: actions/checkout@main
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
