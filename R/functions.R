@@ -91,7 +91,7 @@ select_tweets <- function(epitwitter_tweets, n_tweets = 8) {
   filtered_tweets <- epitwitter_tweets %>%
     filter(tolower(screen_name) %nin% get_spammers())
 
-  if (is_empty(filtered_tweets)) {
+  if (isTRUE(nrow(filtered_tweets) == 0)) {
     message("Skipping retweet: only black-listed tweets found")
     return(NULL)
   }
