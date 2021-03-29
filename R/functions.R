@@ -53,8 +53,8 @@ push_mongo_data <- function(new_tweets, old_tweets) {
   new_tweets <- new_tweets %>%
     select(all_of(names(old_tweets)))
 
-  cli_alert_success("Uploading {uploaded$nInserted} new tweet{?s}")
   uploaded <- mongo_con$insert(new_tweets)
+  cli_alert_success("Uploading {uploaded$nInserted} new tweet{?s}")
 
   invisible(uploaded)
 }
