@@ -137,7 +137,8 @@ slow_retweet <- function(.x, epitwitter_tweets) {
   tweet <- epitwitter_tweets %>%
     filter(status_id == .x)
 
-  cli_h1("Retweeting @{tweet$screen_name}")
+  cli_h1("Tweet ID {.x}")
+  cli_alert_success("Retweeting @{tweet$screen_name}")
   cli_text(tweet$text)
   post_tweet(
     retweet_id = .x,
