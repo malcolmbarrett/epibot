@@ -43,7 +43,7 @@ pull_mongo_data <- function() {
 
 push_mongo_data <- function(new_tweets, old_tweets) {
   if (is_empty(new_tweets)) {
-    message("No new tweets")
+    cli_alert_info("No new tweets")
     return(invisible((list())))
   }
 
@@ -54,7 +54,7 @@ push_mongo_data <- function(new_tweets, old_tweets) {
     select(all_of(names(old_tweets)))
 
   uploaded <- mongo_con$insert(new_tweets)
-  message(glue::glue("Uploaded {uploaded$nInserted} new tweet(s)"))
+  cli_alert_success("Uploaded {uploaded$nInserted} new tweet{?s}")
 
   invisible(uploaded)
 }
@@ -92,7 +92,7 @@ select_tweets <- function(epitwitter_tweets, n_tweets = 8) {
     filter(tolower(screen_name) %nin% get_spammers())
 
   if (isTRUE(nrow(filtered_tweets) == 0)) {
-    message("Skipping retweet: only blacklisted tweets found")
+    cli_alert_info("Skipping retweet: only blacklisted tweets found")
     return(NULL)
   }
 
@@ -137,7 +137,8 @@ slow_retweet <- function(.x, epitwitter_tweets) {
   tweet <- epitwitter_tweets %>%
     filter(status_id == .x)
 
-  message(glue::glue("Retweeting @{tweet$screen_name}: {tweet$text}"))
+  cli_h1("Retweeting @{tweet$screen_name}")
+  cli_text(tweet$text)
   post_tweet(
     retweet_id = .x,
     token = epitwitter_token()

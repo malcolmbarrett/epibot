@@ -13,6 +13,7 @@ License: MIT + file LICENSE
 URL: https://github.com/malcolmbarrett/epibot
 BugReports: https://github.com/malcolmbarrett/epibot/issues
 Imports: 
+    cli,
     dplyr,
     fs,
     glue,
