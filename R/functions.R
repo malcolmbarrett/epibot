@@ -144,9 +144,22 @@ slow_retweet <- function(.x, epitwitter_tweets) {
   cli_h1(tweet_url(tweet))
   cli_alert_success("Retweeting @{tweet$screen_name}")
   cli_text(tweet$text)
-  post_tweet(
-    retweet_id = .x,
-    token = epitwitter_token()
-  )
+
+  retweet(.x)
+
   Sys.sleep(20)
+}
+
+retweet <- function(.x) {
+  tryCatch(
+    suppressMessages(
+      post_tweet(
+        retweet_id = .x,
+        token = epitwitter_token()
+      )),
+    warning = function(.w) {
+      cat("\n")
+      cli_alert_danger(.w$message)
+    }
+  )
 }
