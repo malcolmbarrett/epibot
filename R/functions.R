@@ -142,8 +142,9 @@ slow_retweet <- function(.x, epitwitter_tweets) {
     filter(status_id == .x)
 
   cli_h1(tweet_url(tweet))
+  cat("\n")
   cli_alert_success("Retweeting @{tweet$screen_name}")
-  cat("\n\n")
+  cat("\n")
   cli_text(tweet$text)
 
   retweet(.x)
