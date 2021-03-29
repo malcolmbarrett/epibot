@@ -160,6 +160,9 @@ retweet <- function(.x) {
     warning = function(.w) {
       cat("\n")
       cli_alert_danger(.w$message)
+    },
+    error = function(.e) {
+      stop(.e$message, call. = FALSE)
     }
   )
 }
