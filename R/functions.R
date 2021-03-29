@@ -133,11 +133,15 @@ retweet_epibot <- function(epitwitter_tweets, n_tweets = 8) {
   }
 }
 
+tweet_url <- function(tweet) {
+  glue::glue("https://twitter.com/{tweet$screen_name}/status/{tweet$status_id}")
+}
+
 slow_retweet <- function(.x, epitwitter_tweets) {
   tweet <- epitwitter_tweets %>%
     filter(status_id == .x)
 
-  cli_h1("Tweet ID {.x}")
+  cli_h1(tweet_url(tweet))
   cli_alert_success("Retweeting @{tweet$screen_name}")
   cli_text(tweet$text)
   post_tweet(
