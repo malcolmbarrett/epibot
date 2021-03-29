@@ -158,8 +158,7 @@ retweet <- function(.x) {
         token = epitwitter_token()
       )),
     warning = function(.w) {
-      cat("\n")
-      cli_alert_danger(.w$message)
+      stop(.w$message, call. = FALSE)
     },
     error = function(.e) {
       stop(.e$message, call. = FALSE)
