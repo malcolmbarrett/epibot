@@ -32,8 +32,10 @@ con_epibot <- function() {
   )
 }
 
+inistent_con <- insistently(con_epibot)
+
 pull_mongo_data <- function() {
-  mongo_con <- con_epibot()
+  mongo_con <- inistent_con()
   withr::defer(mongo_con$disconnect())
 
   mongo_con$find() %>%
@@ -47,7 +49,7 @@ push_mongo_data <- function(new_tweets, old_tweets) {
     return(invisible((list())))
   }
 
-  mongo_con <- con_epibot()
+  mongo_con <- inistent_con()
   withr::defer(mongo_con$disconnect())
 
   new_tweets <- new_tweets %>%
