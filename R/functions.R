@@ -147,11 +147,19 @@ slow_retweet <- function(.x, epitwitter_tweets) {
   cat("\n")
   cli_alert_success("Retweeting @{tweet$screen_name}")
   cat("\n")
-  cli_text(tweet$text)
+  cli_text(tweet_text(tweet))
 
   retweet(.x)
 
   Sys.sleep(20)
+}
+
+tweet_text <- function(tweet) {
+  tweet <- tweet$text
+  tweet <- gsub("\\{", "{{", tweet)
+  tweet <- gsub("\\}", "}}", tweet)
+
+  tweet
 }
 
 retweet <- function(.x) {
