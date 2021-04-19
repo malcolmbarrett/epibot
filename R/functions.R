@@ -163,6 +163,8 @@ tweet_text <- function(tweet) {
 }
 
 retweet <- function(.x) {
+  check_tweet_exists(.x)
+
   tryCatch(
     suppressMessages(
       post_tweet(
@@ -176,4 +178,8 @@ retweet <- function(.x) {
       stop(.e$message, call. = FALSE)
     }
   )
+}
+
+check_tweet_exists <- function(.x) {
+  !rlang::is_empty(rtweet::lookup_statuses(.x))
 }
