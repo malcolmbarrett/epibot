@@ -184,5 +184,5 @@ retweet <- function(.x) {
 }
 
 tweet_exists <- function(.x) {
-  !rlang::is_empty(rtweet::lookup_statuses(.x))
+  !rlang::is_empty(rtweet::lookup_statuses(.x, token = epitwitter_token()))
 }
