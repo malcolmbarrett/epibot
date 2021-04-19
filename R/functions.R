@@ -163,7 +163,10 @@ tweet_text <- function(tweet) {
 }
 
 retweet <- function(.x) {
-  check_tweet_exists(.x)
+  if (!tweet_exists(.x)) {
+    cli_alert_warning("Tweet ID {.code {.x}} no longer exists")
+    return(invisible())
+  }
 
   tryCatch(
     suppressMessages(
@@ -180,6 +183,6 @@ retweet <- function(.x) {
   )
 }
 
-check_tweet_exists <- function(.x) {
+tweet_exists <- function(.x) {
   !rlang::is_empty(rtweet::lookup_statuses(.x))
 }
