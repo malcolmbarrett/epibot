@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install libcurl on Linux
+        run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev
+
       - uses: r-lib/actions/setup-pandoc@v1
 
       - uses: r-lib/actions/setup-r@v1
