@@ -19,7 +19,7 @@ Imports:
     glue,
     mongolite,
     purrr,
-    rtweet,
+    rtweet (>= 1.0.2),
     withr
 Encoding: UTF-8
 LazyData: true
