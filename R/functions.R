@@ -1,9 +1,11 @@
 epitwitter_token <- function() {
-  rtweet::rtweet_bot(
-    api_key = Sys.getenv("EPIBOT_CONSUMER_KEY"),
-    api_secret = Sys.getenv("EPIBOT_CONSUMER_SECRET"),
+  rtweet::create_token(
+    "epi_twitter_bot",
+    consumer_key = Sys.getenv("EPIBOT_CONSUMER_KEY"),
+    consumer_secret = Sys.getenv("EPIBOT_CONSUMER_SECRET"),
     access_token = Sys.getenv("EPIBOT_ACCESS_TOKEN"),
-    access_secret = Sys.getenv("EPIBOT_ACCESS_SECRET")
+    access_secret = Sys.getenv("EPIBOT_ACCESS_SECRET"),
+    set_renv = FALSE
   )
 }
 
@@ -73,8 +75,7 @@ search_new_tweets <- function(previous_tweets, search_terms) {
     retryonratelimit = TRUE,
     include_rts = FALSE,
     token = epitwitter_token()
-  ) %>%
-    rename(status_id = id_str)
+  )
 
   if (!is_empty(epitwitter_tweets)) {
     epitwitter_tweets <- distinct(epitwitter_tweets, status_id, .keep_all = TRUE)

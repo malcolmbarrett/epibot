@@ -1,42 +1,25 @@
 name: Retweet epitwitter
 'on':
-#  push:
-#    branches:
-#      - main
+ push:
+   branches:
+     - main
   schedule:
     - cron:  '0 * * * *'
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@main
+      steps:
+      - uses: actions/checkout@v2
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Query dependencies
-        run: |
-          options(repos = 'https://packagemanager.rstudio.com/all/latest')
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        uses: actions/cache@v2
+      - uses: r-lib/actions/setup-r@v1
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ hashFiles('.github/R-version') }}-1-
+          use-public-rspm: true
 
-      - name: Install Package Dependencies
-        run: |-
-          options(repos = 'https://packagemanager.rstudio.com/all/latest')
-          install.packages('remotes')
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
+      - uses: r-lib/actions/setup-renv@v1
 
       - name: Run script
         env:
