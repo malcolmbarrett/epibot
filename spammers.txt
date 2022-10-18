@@ -5,3 +5,7 @@ CVaccinebot
 nymattregan
 NiacinIsHealth
 monkeyfadetrade
+FranceFeeds
+KannadaFeeds
+usa_feeds
+
